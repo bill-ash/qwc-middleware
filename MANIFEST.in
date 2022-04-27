@@ -1,0 +1,5 @@
+include src/qwc/README.rst
+include src/qwc/config.ini
+include src/qwc/scripts/*
+include pyqwc.qwc
+include README.md

@@ -1,4 +1,4 @@
-from pyqwc.pyqwc import start_server
+from qwc.service import start_server
 
 # Starts the soap service WebConnector will connect with:
 # - get_client_version 
@@ -7,4 +7,6 @@ from pyqwc.pyqwc import start_server
 # - process qbxml
 # - return results if successful  
 
-start_server()
+if __name__ == '__main__':
+    start_server()
+

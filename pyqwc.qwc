@@ -1,7 +1,6 @@
-<!-- What get's installed in QuickBooks WebConnector -->
 <?xml version="1.0"?>
 <QBWCXML>
-    <AppName>PythonQBWCService1</AppName>
+    <AppName>QWCTestService</AppName>
     <AppID></AppID>
     <AppURL>http://localhost:4244/qwc/</AppURL>
     <AppDescription>Python access to Quickbooks</AppDescription>

@@ -5,20 +5,15 @@ WebConnector on the next run.
 
 import walrus
 import uuid
-from configobj import ConfigObj
-import os
+from qwc import config
 
-
-class pyqwcClient():
+class QBWCClient:
     """
     Python client for sending xml to a redis list where it will sit until queried by the 
     QuickBooks web connector. 
     """
 
-    def  __init__(self):
-        # configfile = os.environ['QWC_CONFIG_FILE']
-        config = ConfigObj('config.ini')
-        
+    def  __init__(self):       
         self.redisdb = walrus.Database(
             host=config['redis']['host'],
             port=config['redis']['port'], 

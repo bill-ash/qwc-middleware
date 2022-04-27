@@ -18,41 +18,20 @@ Query Manager
 Checks, processes, and iterates over any new work to be completed in Redis. 
 """
 import uuid
+import logging 
 import walrus
+
 from spyne.application import Application
 from spyne.service import ServiceBase
 from spyne.model.primitive import Integer, Unicode
-from spyne.model.complex import Iterable, ComplexModel, Array
+from spyne.model.complex import Array
 from spyne.decorator import srpc
 from spyne.protocol.soap import Soap11
-import time
 from lxml import etree
-from configobj import ConfigObj
 from spyne.server.wsgi import WsgiApplication
 from waitress import serve
-import os
-import logging
-import redis
 
-
-# # ? need to clear the hashes pointed to by waiting work first
-# config = ConfigObj('config.ini')
-# rdb = walrus.Database(
-#    host=config['redis']['host'],
-#    port=config['redis']['port'], 
-#    password=config['redis']['password'],
-#    db=config['redis']['db'])
-
-
-# rdb.Hash('qwc:currentWork').clear()
-# rdb.List('qwc:waitingWork').clear()
-# rdb.set('qwc:sessionTicket','')
-
-
-
-# configfile = os.environ['config.ini']
-# config = ConfigObj(configfile)
-config = ConfigObj('config.ini')
+from qwc import config
 
 DEBUG2 = 8
 LEVELS = {'DEBUG2': DEBUG2,
@@ -171,7 +150,7 @@ class QBWCService(ServiceBase):
         return reqXML
 
     @srpc(Unicode,Unicode,Unicode,Unicode,  _returns=Integer)
-    def receiveResponseXML( ticket, response, hresult, message ):
+    def receiveResponseXML(ticket, response, hresult, message):
         """ contains data requested from Quickbooks
         @param ticket session token sent from this service to web connector
         @param response qbXML response from QuickBooks
@@ -182,14 +161,14 @@ class QBWCService(ServiceBase):
         """
         logging.debug('receiveResponseXML %s %s %s',ticket,hresult,message)
         logging.log(DEBUG2,'receiveResponseXML %s',response)
-        percent_done = session_manager.process_response(ticket,response)
+        percent_done = session_manager.process_response(ticket, response)
 
         return percent_done
 
 
 
 
-class qbwcSessionManager():
+class SessionManager():
     
     def __init__(self):
         """
@@ -291,7 +270,7 @@ class qbwcSessionManager():
             #self.responseStore.append("TheEnd")        
             
             #100 percent done
-            return 90 
+            return 100
 
     def newJobs(self):
         if len(self.waitingWork):
@@ -314,16 +293,16 @@ class qbwcSessionManager():
         return  self.currentWork['reqID']
 
 
+# Create the instance of a session manager to be used by the service 
+# Handles commuinication with Redis 
+session_manager = SessionManager()
+
 # Wrap the service in an application layer - turning it into proper soap protocall 
 app = Application([QBWCService],
     tns='http://developer.intuit.com/',
     in_protocol=Soap11(validator='lxml'),
     out_protocol=Soap11()
 )
-
-# Create the instance of a session manager to be used by the service 
-# Handles commuinication with Redis 
-session_manager = qbwcSessionManager()
 
 # Wrap the soap application with a WSGI layer 
 application  = WsgiApplication(app)
