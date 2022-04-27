@@ -1,3 +1,7 @@
+"""
+Creates raw qbxml to be passed to the webconnector via redis. 
+Could not get this to work successfully. 
+"""
 from lxml import etree
 
 def iterative_query_request(requestID=1, iteratorID="", querytype="", MaxReturned=100, IncludeLineItems=False):

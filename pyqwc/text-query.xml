@@ -1,3 +1,4 @@
+<!-- raw qbxml for creating a credit card payment -->
 <?qbxml version="15.0"?>
 <QBXML>
         <QBXMLMsgsRq onError="stopOnError">

@@ -1,4 +1,5 @@
 from setuptools import setup, find_packages
+
 setup(
     name = 'pyqwc',
     package_data = {'': ['*.rst']},
@@ -12,4 +13,4 @@ setup(
     classifiers = [],
     license= "MIT",
     packages = find_packages() 
-    )
+)

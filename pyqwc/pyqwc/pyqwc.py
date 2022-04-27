@@ -1,3 +1,22 @@
+"""
+SOAP service served using wsgi and waitress. 
+Implements six methods required for the QuickBooks WebConnector
+to run in this order: 
+- clientVersion() (accessed first but not required)
+- authenticate() 
+    - returns a ticket when new work is available to be processed from Redis
+- sendRequestXML() 
+    - sends qbxml to be processed (CRUD operation)
+- receiveRequestXML()
+    - processes the response if any
+- getLastError()
+    - dumps error message and code if any 
+- closeConnection()
+    - closed the connection when completed 
+
+Query Manager 
+Checks, processes, and iterates over any new work to be completed in Redis. 
+"""
 import uuid
 import walrus
 from spyne.application import Application
@@ -306,17 +325,15 @@ app = Application([QBWCService],
 # Handles commuinication with Redis 
 session_manager = qbwcSessionManager()
 
-# Serve the soap application with a WSGI server 
+# Wrap the soap application with a WSGI layer 
 application  = WsgiApplication(app)
+
 
 def start_server():
     """
     Serve the wsgi application using waitress server
     """
-    # Use waitress as the client server 
+    # Use waitress as the server 
     serve(application, host=config['qwc']['host'], port=int(config['qwc']['port']))
-
-if __name__ == '__main__':
-    start_server()
 
 

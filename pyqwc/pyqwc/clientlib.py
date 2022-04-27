@@ -1,3 +1,8 @@
+"""
+Simple client for sending raw qbxml to redis to be processed by the 
+WebConnector on the next run.
+"""
+
 import walrus
 import uuid
 from configobj import ConfigObj
