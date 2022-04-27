@@ -1,0 +1,28 @@
+import win32serviceutil
+import win32service
+import win32event
+import pyQBWC
+
+
+
+
+class pyQBWC (win32serviceutil.ServiceFramework):
+    _svc_name_ = "pyQBWC"
+    _svc_display_name_ = "pyQBWC server"
+
+    def __init__(self,args):
+        win32serviceutil.ServiceFramework.__init__(self, *args)
+        self.stop_event = win32event.CreateEvent(None,0,0,None)
+
+    def SvcStop(self):
+        self.ReportServiceStatus(win32service.SERVICE_STOP_PENDING)
+        win32event.SetEvent(self.stop_event)
+	
+    def SvcDoRun(self):
+    	pyQBWC.start_server()
+        win32event.WaitForSingleObject(self.stop_event, win32event.INFINITE)
+        
+
+if __name__ == '__main__':
+    win32serviceutil.HandleCommandLine(pyQBWC)
+   

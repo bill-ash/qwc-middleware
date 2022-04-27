@@ -1,0 +1,36 @@
+<?qbxml version="15.0"?>
+<QBXML>
+        <QBXMLMsgsRq onError="stopOnError">
+                <CreditCardChargeAddRq>
+                        <CreditCardChargeAdd> <!-- required -->
+                                <AccountRef> <!-- required -->                                        
+                                        <FullName>CalOil Card</FullName> <!-- optional -->
+                                </AccountRef>
+
+                                <PayeeEntityRef> <!-- optional -->
+                                        <FullName >ODI</FullName> <!-- optional -->
+                                </PayeeEntityRef>
+                                
+                                <TxnDate >2025-01-01</TxnDate> <!-- optional -->
+                                
+                                <RefNumber >MyRef</RefNumber> <!-- optional -->
+                                
+                                <Memo >MyMemo</Memo> <!-- optional -->
+                                
+                                <ExpenseLineAdd> <!-- optional, may repeat -->
+                                        <AccountRef> <!-- optional -->
+                                                <FullName >Tools and Misc. Equipment</FullName> <!-- optional -->
+                                        </AccountRef>
+                                        
+                                        <Amount >10.32</Amount> <!-- optional -->
+                                        
+                                        <Memo >Tools and stuff</Memo> <!-- optional -->
+                                        
+                                </ExpenseLineAdd>
+                             
+                        </CreditCardChargeAdd>
+                        
+                </CreditCardChargeAddRq>
+
+        </QBXMLMsgsRq>
+</QBXML>
