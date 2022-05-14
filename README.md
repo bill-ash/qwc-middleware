@@ -7,7 +7,6 @@ Built using the framework built by Bill Barry in: https://github.com/BillBarry/p
 Updated for use with python3, WebConnector version 2.3.0.207, and rapid proto-typing of 
 different QuickBooks objects. 
 
-
 # Useage 
 
 qwc is a soap server with built in client that uses redis to queue raw QBXML to be processed
@@ -30,7 +29,7 @@ Install the package in a fresh environment:
 python -m venv .venv 
 ```
 
-then in install the package with pip:
+Then in install the package with pip:
 
 ```
 python -m pip install qwc
@@ -121,7 +120,7 @@ from qwc.objects import add_customer
 from qwc.service import start_server
 
 # Create the QBXML
-customer = add_customer(name='BillAsh123')
+customer = add_customer(name='SuperUser123')
 
 # Start a new client 
 client = QBWCClient()
